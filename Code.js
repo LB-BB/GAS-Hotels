@@ -9,7 +9,7 @@ const DATA_START_COL_ID = 1
 const FILEDATA_RANGE = "A3:A"
 
 function onOpen() {
-  const ui = SpreadsheetApp.getUi()
+  let ui = SpreadsheetApp.getUi()
   ui.createMenu('Get Hotels')
     .addItem('Get Hotels', 'getHotels')
     .addToUi()
@@ -21,14 +21,14 @@ function filterEmpty(value){
 
 function getHotels() {
   Logger.log("Sending GET request to : "+API_URL)
-  const response = UrlFetchApp.fetch(API_URL)
+  let response = UrlFetchApp.fetch(API_URL)
   if(response.getResponseCode() == 200){
     if(response.length != 0){
-      const jsonContent = JSON.parse(response.getContentText())
+      let jsonContent = JSON.parse(response.getContentText())
       
-      const sheetData = []
-      const spreadSheet = SpreadsheetApp.getActiveSpreadsheet()
-      const hotelSheet = spreadSheet.getSheetByName(SHEET_NAME)
+      let sheetData = []
+      let spreadSheet = SpreadsheetApp.getActiveSpreadsheet()
+      let hotelSheet = spreadSheet.getSheetByName(SHEET_NAME)
       if(hotelSheet == null){
         // Create the Hotel sheet if it does not exist
         hotelSheet = spreadSheet.insertSheet(SHEET_NAME)
@@ -39,7 +39,7 @@ function getHotels() {
         sheetData = sheetData.filter(filterEmpty)
       }
 
-      const processedData = []
+      let processedData = []
 
       jsonContent.results.forEach(function(record){
         processedData.push([record["name"],record["rating"], record["vicinity"]])
